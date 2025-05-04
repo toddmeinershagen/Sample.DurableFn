@@ -1,13 +1,27 @@
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-var builder = FunctionsApplication.CreateBuilder(args);
 
-builder.ConfigureFunctionsWebApplication();
-
-// Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
-// builder.Services
-//     .AddApplicationInsightsTelemetryWorkerService()
-//     .ConfigureFunctionsApplicationInsights();
-
-builder.Build().Run();
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var host = new HostBuilder()
+            .ConfigureFunctionsWebApplication()
+            .ConfigureLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.AddDebug();
+                logging.SetMinimumLevel(LogLevel.Debug);
+            })
+            .ConfigureServices(services =>
+            {
+                //services..AddApplicationInsightsTelemetryWorkerService();
+                //services.ConfigureFunctionsApplicationInsights();
+            })
+            .Build();
+        
+        host.Run();
+    }
+}

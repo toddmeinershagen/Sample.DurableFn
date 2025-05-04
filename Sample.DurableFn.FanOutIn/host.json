@@ -1,6 +1,13 @@
 {
   "version": "2.0",
   "logging": {
+    "fileLoggingMode": "debugOnly",
+    "logLevel": {
+      "default": "None",
+      "Host.Aggregator": "Trace",
+      "Host.Results": "Error",
+      "Function": "Debug"
+    },
     "applicationInsights": {
       "samplingSettings": {
         "isEnabled": true,
@@ -11,8 +18,9 @@
   },
   "extensions": {
     "durableTask": {
+      "hubName": "ReIngestionHub",
       "storageProvider": {
-        "type": "AzureStorage"
+        "connectionStringName": "AzureWebJobsStorage"
       }
     }
   }
